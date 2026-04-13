@@ -7,38 +7,43 @@ window.onload = function() {
     });
 };
 
-function addSkill() {
-    let input = document.getElementById("skillInput");
-    let skill = input.value;
-
-    if (skill === "") return;
-
-    let skills = JSON.parse(localStorage.getItem("skills")) || [];
-    skills.push(skill);
-    localStorage.setItem("skills", JSON.stringify(skills));
-
-    addSkillToList(skill, skills.length - 1);
-
-    input.value = "";
-}
-
 function addSkillToList(skill, index) {
     let li = document.createElement("li");
-    li.textContent = skill;
 
+    let span = document.createElement("span");
+    span.textContent = skill;
+
+    // Edit button
+    let editBtn = document.createElement("button");
+    editBtn.textContent = "Edit";
+
+    editBtn.onclick = function() {
+        let newSkill = prompt("Edit your skill:", skill);
+
+        if (newSkill && newSkill !== "") {
+            span.textContent = newSkill;
+
+            let skills = JSON.parse(localStorage.getItem("skills")) || [];
+            skills[index] = newSkill;
+            localStorage.setItem("skills", JSON.stringify(skills));
+        }
+    };
+
+    // Delete button
     let deleteBtn = document.createElement("button");
     deleteBtn.textContent = "X";
 
     deleteBtn.onclick = function() {
-        li.remove();
-
         let skills = JSON.parse(localStorage.getItem("skills")) || [];
-        skills.splice(index, 1); // remove by index
+        skills.splice(index, 1);
         localStorage.setItem("skills", JSON.stringify(skills));
 
-        location.reload(); // refresh to sync indexes
+        location.reload();
     };
 
+    li.appendChild(span);
+    li.appendChild(editBtn);
     li.appendChild(deleteBtn);
+
     document.getElementById("skillList").appendChild(li);
 }
