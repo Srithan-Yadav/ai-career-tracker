@@ -8,6 +8,8 @@ function saveSkills(skills) {
 
 function renderSkills() {
     let skillList = document.getElementById("skillList");
+    if (!skillList) return; // safety check
+
     skillList.innerHTML = "";
 
     let skills = getSkills();
@@ -16,22 +18,31 @@ function renderSkills() {
         let li = document.createElement("li");
 
         let span = document.createElement("span");
-        span.textContent = skill;
+        span.textContent = (skill.name || skill) + " (" + (skill.category || "General") + " - " + (skill.level || "Beginner") + ")";
 
-        // Edit button
+        let progress = document.createElement("div");
+
+        let width = "30%";
+        if (skill.level === "Intermediate") width = "60%";
+        if (skill.level === "Advanced") width = "100%";
+
+        progress.style.width = width;
+        progress.style.height = "5px";
+        progress.style.background = "green";
+        progress.style.marginTop = "5px";
+
         let editBtn = document.createElement("button");
         editBtn.textContent = "Edit";
 
         editBtn.onclick = function() {
-            let newSkill = prompt("Edit your skill:", skill);
-            if (newSkill && newSkill !== "") {
-                skills[index] = newSkill;
+            let newSkill = prompt("Edit your skill:", skill.name);
+            if (newSkill) {
+                skills[index].name = newSkill;
                 saveSkills(skills);
                 renderSkills();
             }
         };
 
-        // Delete button
         let deleteBtn = document.createElement("button");
         deleteBtn.textContent = "X";
 
@@ -42,26 +53,56 @@ function renderSkills() {
         };
 
         li.appendChild(span);
+        li.appendChild(progress);
         li.appendChild(editBtn);
         li.appendChild(deleteBtn);
 
         skillList.appendChild(li);
     });
+
+    updateStats(skills);
 }
 
 function addSkill() {
     let input = document.getElementById("skillInput");
-    let skill = input.value;
+    let category = document.getElementById("category");
+    let level = document.getElementById("level");
 
+    if (!input || !category || !level) {
+        alert("Check HTML IDs (skillInput / category / level)");
+        return;
+    }
+
+    let skill = input.value.trim();
     if (skill === "") return;
 
     let skills = getSkills();
-    skills.push(skill);
+    console.log("Adding:", skill, category.value, level.value);
+    
+    skills.push({
+        name: skill,
+        category: category.value,
+        level: level.value
+    });
+
     saveSkills(skills);
 
     input.value = "";
     renderSkills();
 }
 
-// Load on start
+function updateStats(skills) {
+    let total = document.getElementById("totalCount");
+    let frontend = document.getElementById("frontendCount");
+    let backend = document.getElementById("backendCount");
+    let ai = document.getElementById("aiCount");
+
+    if (!total || !frontend || !backend || !ai) return;
+
+    total.textContent = skills.length;
+    frontend.textContent = skills.filter(s => s.category === "Frontend").length;
+    backend.textContent = skills.filter(s => s.category === "Backend").length;
+    ai.textContent = skills.filter(s => s.category === "AI").length;
+}
+
 window.onload = renderSkills;

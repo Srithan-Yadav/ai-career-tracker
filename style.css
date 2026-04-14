@@ -1,26 +1,5 @@
 body {
     font-family: Arial;
-    text-align: center;
-    margin-top: 50px;
-}
-
-input {
-    padding: 10px;
-    margin: 10px;
-}
-
-button {
-    padding: 10px;
-    cursor: pointer;
-}
-
-
-button {
-    margin-left: 5px;
-}
-
-body {
-    font-family: Arial;
     background-color: #f4f6f8;
     display: flex;
     justify-content: center;
@@ -49,7 +28,6 @@ input {
     padding: 10px;
 }
 
-/* Buttons */
 button {
     padding: 10px;
     border: none;
@@ -57,9 +35,9 @@ button {
     color: white;
     cursor: pointer;
     border-radius: 5px;
+    margin-left: 5px;
 }
 
-/* Skill list */
 li {
     display: flex;
     justify-content: space-between;

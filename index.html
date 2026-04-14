@@ -1,20 +1,43 @@
 <!DOCTYPE html>
 <html>
 <head>
-     <meta charset="UTF-8">
+    <meta charset="UTF-8">
     <title>AI Career Tracker</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
     <div class="container">
         <h1>AI Career Tracker</h1>
 
+        <!-- ✅ Stats -->
+        <div class="stats">
+            <p>Total: <span id="totalCount">0</span></p>
+            <p>Frontend: <span id="frontendCount">0</span></p>
+            <p>Backend: <span id="backendCount">0</span></p>
+            <p>AI: <span id="aiCount">0</span></p>
+        </div>
+
+        <!-- ✅ Input Section -->
         <div class="input-section">
+            <select id="category">
+                <option value="Frontend">Frontend</option>
+                <option value="Backend">Backend</option>
+                <option value="AI">AI</option>
+            </select>
+
+            <select id="level">
+                <option value="Beginner">Beginner</option>
+                <option value="Intermediate">Intermediate</option>
+                <option value="Advanced">Advanced</option>
+            </select>
+
             <input type="text" id="skillInput" placeholder="Enter a skill">
             <button onclick="addSkill()">Add</button>
         </div>
 
+        <!-- ✅ THIS WAS MISSING -->
         <ul id="skillList"></ul>
     </div>
 
